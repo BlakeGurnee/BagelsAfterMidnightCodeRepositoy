@@ -4,7 +4,7 @@
 ez::Drive chassis(
     // Drive Motors
     {-16, -17, 14},     // Left Chassis Ports (negative will reverse it)
-    {12, 20, -18},  // Right Chassis Ports (negative will reverse it)
+    {7, 20, -18},  // Right Chassis Ports (negative will reverse it)
 
     11,      // IMU Port
     3.25,  // Wheel Diameter
@@ -25,6 +25,7 @@ void initialize() {
   ez::ez_template_print();
 
   pros::delay(500);  // Stop the user from doing anything while legacy ports configure
+
 
   // Look at your horizontal tracking wheel and decide if it's in front of the midline of your robot or behind it
   //  - change `back` to `front` if the tracking wheel is in front of the midline
@@ -71,15 +72,17 @@ void initialize() {
       {"Blue Left\n\nAuton for Blue alliance left side", blueLeftMain},
       {"Blue Left Elim\n\nAuton for Blue alliance left side elimination", blueLeftElim},
       {"Skills\n\nAuton for Skills Challenge", skillsMain},
+      {"Display Image\n\nDisplays an image on the brain screen", display_image},
   });
-
-  // Initialize the optical sensor for color sorting
-  optical_sensor.set_led_pwm(100);
-  optical_sensor.set_integration_time(5);
 
   // Initialize chassis and auton selector
   chassis.initialize();
   ez::as::initialize();
+
+   // Initialize the optical sensor for color sorting
+  optical_sensor.set_led_pwm(100);
+  optical_sensor.set_integration_time(5);
+
   master.rumble(chassis.drive_imu_calibrated() ? "." : "---");
 }
 
@@ -136,7 +139,9 @@ void autonomous() {
   to be consistent
   */
 
+  
   ez::as::auton_selector.selected_auton_call();  // Calls selected auton from autonomous selector
+
 }
 
 /**
@@ -254,22 +259,58 @@ void opcontrol() {
     {
       setIntake(127);
       intakeState = 1;
+      intakeActive = true;
+      //startColorSortTask(); // Call color sort control to handle intake based on color  
     }
     else if (master.get_digital(DIGITAL_L2)) // Normal Intake Stop
     {
       setIntake(0);
+      intakeActive = false;
+      intakeState = 0;
+      //stopColorSortTask();
+    }
+    else if (master.get_digital(DIGITAL_UP)) // Outtake
+    {
+      upperIntake.move(-127);
+      lowerIntake.move(-127);
+      intakeState = -1;
     }
     else if (master.get_digital(DIGITAL_R1)) // Block Hold Intake
     {
-      upperIntake.move(-50);
+      upperIntake.move(0);
       lowerIntake.move(127);
       intakeState = -1;
     }
     else if (master.get_digital(DIGITAL_R2)) // Block Hold Intake Stop
     {
       setIntake(0);
+      intakeState = 0;
+    }
+
+    if (master.get_digital_new_press(DIGITAL_B)) // Matchload piston toggle
+    {
+      matchloadSwitch();
     }
     
+    if (master.get_digital_new_press(DIGITAL_X)) // Center Goal Scoring
+    {
+      centerGoalSwitch();
+    }
+
+    if (master.get_digital_new_press(DIGITAL_RIGHT)) // Park Macro
+    {
+      ParkMacro();
+    }
+
+    if (master.get_digital_new_press(DIGITAL_DOWN)) // Descore piston toggle
+    {
+      descoreSwitch();
+    }
+    
+    if (master.get_digital(DIGITAL_B) && master.get_digital(DIGITAL_DOWN)) // Have the auton run if we hit the B and Down button makes it so we don't need to have a comp switch to test autons
+    {
+      autonomous();
+    }
 
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }

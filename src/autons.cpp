@@ -65,6 +65,11 @@ void drive_example() {
   chassis.pid_wait();
 }
 
+void display_image() 
+{
+  
+}
+
 ///
 // Turn Example
 ///

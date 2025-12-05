@@ -30,7 +30,20 @@ void matchloadSwitch()
   }
 }
 
+void centerGoalSwitch()
+{
+ if (centerGoalPiston.is_extended())
+  {
+    centerGoalPiston.retract();
+  }
+ else
+  {
+    centerGoalPiston.extend();
+  }
+}
+
 void ParkMacro() {
+    parkPiston.retract();  // Retract parking piston to prepare for parking
     // Keep checking until object detected
     while (true) {
 
@@ -41,7 +54,7 @@ void ParkMacro() {
             upperIntake.move(0);
             lowerIntake.move(0);
 
-            parkPiston.toggle();  // Activate parking piston
+            parkPistons.toggle();  // Activate parking piston
 
             break;                // exit macro
         }

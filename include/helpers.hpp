@@ -3,6 +3,7 @@
 void setIntake(int IntakePower);
 
 
-void MatchloadSwitch();
+void matchloadSwitch();
 void descoreSwitch();
+void centerGoalSwitch();
 void ParkMacro();

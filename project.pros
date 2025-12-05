@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "EZ-Template-Test",
+    "project_name": "MainProgram",
     "target": "v5",
     "templates": {
       "EZ-Template": {
@@ -424,8 +424,8 @@
       }
     },
     "upload_options": {
-      "description": "roboticsisez.com",
-      "slot": 5,
+      "description": "Main program for this robot",
+      "slot": 1,
       "icon": "pizza"
     },
     "use_early_access": false
