@@ -1,0 +1,45 @@
+//#include "antiJam.hpp"
+#include "main.h"
+#include "pros/apix.h"
+
+void intake_anti_jam_task() {
+  int jam_timer = 0;
+
+  while (true) {
+    if (intakeMode == 1) {
+      setIntake(127);
+
+      double velocity =
+        (fabs(upperIntake.move_velocity(450)) +
+         fabs(lowerIntake.move_velocity(450))) / 2.0;
+
+      double torque =
+        (upperIntake.torque() +
+         lowerIntake.torque()) / 2.0;
+
+      if (velocity < 10 && torque > 0.3 && antiJamEnabled) {
+        jam_timer += 10;
+      } else {
+        jam_timer = 0;
+      }
+
+      if (jam_timer > 120) {
+        setIntake(-100);          // softer reverse
+        pros::delay(125);
+        jam_timer = 0;
+      }
+    }
+
+    else if (intakeMode == -1) {
+      setIntake(-127);
+      jam_timer = 0;
+    }
+
+    else {
+      setIntake(0);
+      jam_timer = 0;
+    }
+
+    pros::delay(10);
+  }
+}

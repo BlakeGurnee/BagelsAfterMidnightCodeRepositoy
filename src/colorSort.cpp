@@ -15,7 +15,7 @@ void colorSortControl() {
     if (Red_Alliance && isBlue) incorrectColor = true;
     if (!Red_Alliance && isRed) incorrectColor = true;
 
-    if (!intakeActive) return;
+    if (intakeState == 0) return;
 
     if (incorrectColor) {
         lowerIntake.move(127);

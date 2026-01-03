@@ -1,3 +1,3 @@
 #include "main.h"
 
-void display_img_from_file();
+extern void display_img_c_array();

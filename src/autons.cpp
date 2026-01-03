@@ -1,4 +1,5 @@
 #include "main.h"
+#include "brainImage.hpp"
 
 #include "main.h"
 
@@ -67,7 +68,7 @@ void drive_example() {
 
 void display_image() 
 {
-  
+ 
 }
 
 ///

@@ -262,11 +262,11 @@ void opcontrol() {
       intakeActive = true;
       //startColorSortTask(); // Call color sort control to handle intake based on color  
     }
-    else if (master.get_digital(DIGITAL_L2)) // Normal Intake Stop
+    else if (master.get_digital(DIGITAL_L2)) // Normal Intake Reverse
     {
-      setIntake(0);
+      setIntake(-127);
       intakeActive = false;
-      intakeState = 0;
+      intakeState = -1;
       //stopColorSortTask();
     }
     else if (master.get_digital(DIGITAL_UP)) // Outtake
@@ -289,22 +289,45 @@ void opcontrol() {
 
     if (master.get_digital_new_press(DIGITAL_B)) // Matchload piston toggle
     {
-      matchloadSwitch();
+      if (matchloadPiston.is_extended())
+        {
+          matchloadPiston.retract();
+        }
+      else
+        {
+          matchloadPiston.extend();
+        }
     }
     
     if (master.get_digital_new_press(DIGITAL_X)) // Center Goal Scoring
     {
-      centerGoalSwitch();
+      if (centerGoalPiston.is_extended())
+        {
+          centerGoalPiston.retract();
+        }
+      else
+        {
+          centerGoalPiston.extend();
+        }
     }
 
-    if (master.get_digital_new_press(DIGITAL_RIGHT)) // Park Macro
+    if (master.get_digital_new_press(DIGITAL_RIGHT)) // Reverse Intake
     {
-      ParkMacro();
+      setIntake(0); // Stop intake
+      intakeActive = false;
+      intakeState = 0;
     }
 
     if (master.get_digital_new_press(DIGITAL_DOWN)) // Descore piston toggle
     {
-      descoreSwitch();
+      if (descorePiston.is_extended())
+        {
+          descorePiston.retract();
+        }
+      else
+        {
+          descorePiston.extend();
+        }
     }
     
     if (master.get_digital(DIGITAL_B) && master.get_digital(DIGITAL_DOWN)) // Have the auton run if we hit the B and Down button makes it so we don't need to have a comp switch to test autons
