@@ -2,6 +2,182 @@
 
 void skillsMain() {
   chassis.odom_xyt_set(0_in, 0_in, 0_deg);
+
+
+  // Drive forward to align with blocks
+  chassis.pid_odom_set(25_in, 110);
+  chassis.pid_wait();
+
+
+  // Turn to face the blocks
+  chassis.pid_turn_set(20_deg, 90);
+  chassis.pid_wait();
+
+
+  lowerIntake.move(100); // Start lower intake
+
+
+  // Set Matchloader
+  matchloadPiston.set_value(true);
+
+
+  // Drive forward to collect blocks
+  chassis.pid_odom_set(20_in, 70);
+  chassis.pid_wait();
+
+
+  pros::delay(500); // Give time to collect blocks
+
+
+  // Turn to face the goal
+  chassis.pid_turn_set(140_deg, 100);
+  chassis.pid_wait();
+
+
+  // Drive to the goal
+  chassis.pid_odom_set(35_in, 100);
+  chassis.pid_wait();
+
+
+  // Turn to face the goal scoring position
+  chassis.pid_turn_set(180_deg, 90);
+  chassis.pid_wait();
+
+
+  // Drive backwards to score the blocks
+  chassis.pid_odom_set(-25_in, 100);
+  pros::delay(1000); // Wait to ensure blocks have scored
+
+
+  upperIntake.move(127); // Start upper intake to score
+
+
+  pros::delay(2500); // Wait for 3 seconds to score
+
+
+  upperIntake.move(0); // Stop upper intake
+  lowerIntake.move(127); // lower intake
+
+
+  // Drive forward to matchloader
+  chassis.pid_turn_set(180_deg, 75);
+  chassis.pid_wait();
+  chassis.pid_odom_set(30_in, 65);
+  chassis.pid_wait();
+ 
+ 
+  pros::delay(4000); // Short delay before activating matchload piston
+  chassis.pid_odom_set(-5_in, 80);
+  chassis.pid_wait();
+  pros::delay(500);
+  chassis.pid_odom_set(25_in, 80);
+  pros::delay(1000);
+ 
+ // matchloadPiston.set_value(true);
+
+
+  chassis.pid_turn_set(180_deg, 75);
+
+
+  // Drive backwards into the long goal
+  chassis.pid_odom_set(-30_in, 90);
+  pros::delay(1000); // Wait to ensure robot is in position
+
+
+  // De-activate matchload Piston
+  matchloadPiston.set_value(false);
+
+
+  // Activate full intake to score the blocks
+  upperIntake.move(127);
+
+
+  // Wait for three seconds to give it time to score the blocks
+  pros::delay(3000);
+
+
+  chassis.pid_odom_set(5_in, 127);
+  chassis.pid_wait();
+  chassis.pid_odom_set(-10_in, 127);
+  pros::delay(1000);
+
+
+  // Drive 10" back towards the matchloader
+  chassis.pid_odom_set(10_in, 60);
+  chassis.pid_wait();
+
+
+  // Deactive matchload
+  matchloadPiston.set_value(false);
+ 
+  // Wait
+  pros::delay(100);
+
+
+  // turn
+  chassis.pid_turn_set(180_deg, 100);
+  chassis.pid_wait();
+ 
+  chassis.pid_turn_set(-95_deg, 90);
+  chassis.pid_wait();
+
+
+
+
+  // Stop intake to stop it from collecting blocks in the way
+  setIntake(0);
+
+
+
+
+  // drive across the field
+  chassis.pid_odom_set(45_in, 127);
+  chassis.pid_wait();
+
+
+
+
+  chassis.pid_turn_set(-180_deg, 127);
+  chassis.pid_wait();
+
+
+
+
+  setIntake(127);
+
+
+
+
+  chassis.pid_odom_set(-20_in, 127);
+  chassis.pid_wait();
+
+
+
+
+  chassis.pid_odom_set(50_in, 127);
+  chassis.pid_wait();
+
+
+
+
+}
+
+/* 20 point Skills (Drive over park intake blocks and stop)
+  chassis.odom_xyt_set(0_in, 0_in, 0_deg);
+  lowerIntake.move(127);
+  pros::delay(100);
+  chassis.pid_odom_set(-10_in, 127);
+  chassis.pid_odom_set(15_in, 127);
+  */
+
+
+/*
+
+*/
+
+/* Work in progress skills auton with potential with control?
+
+chassis.odom_xyt_set(0_in, 0_in, 0_deg);
    // Activate Matchload Piston
   matchloadPiston.set_value(true);
   pros::delay(500);
@@ -17,7 +193,11 @@ void skillsMain() {
   // Activate Block Hold Intake and drive into matchloader
   lowerIntake.move(127);
   chassis.pid_odom_set(15_in, 75);
-  pros::delay(1000);
+  pros::delay(3000);
+  chassis.pid_odom_set(-10_in, 90);
+  pros::delay(300);
+  chassis.pid_odom_set(10_in, 75);
+  pros::delay(500);
 
   // Short delay to give the intake time to collect the blocks
   pros::delay(2500);
@@ -67,121 +247,17 @@ void skillsMain() {
   pros::delay(2000);
 
   chassis.pid_odom_set(25_in, 100);
-  chassis.pid_wait();
-}
+  pros::delay(1000);
 
-/*
-setIntake(127);
-  chassis.odom_xyt_set(0_in, 0_in, 0_deg);
-  chassis.pid_odom_set(10_in, 127);
-*/
-/*
-// Activate Matchload Piston
-  matchloadPiston.set_value(true);
-  
-  // Drive to Matchloader
-  chassis.pid_drive_set(33_in, 110);
-  chassis.pid_wait();
-
-  // Turn to face matchloader
-  chassis.pid_turn_set(90_deg, 90);
-  chassis.pid_wait();
-
-  // Activate Block Hold Intake and drive into matchloader
-  lowerIntake.move(127);
-  chassis.pid_drive_set(10_in, 60);
-  chassis.pid_wait();
-
-  // Short delay to give the intake time to collect the blocks
-  pros::delay(3000);
-
-  // Drive backwards into the long goal
-  chassis.pid_drive_set(-30_in, 100);
-  chassis.pid_wait();
-
-  // De-activate matchload Piston
   matchloadPiston.set_value(false);
 
-  // Activate full intake to score the blocks
-  upperIntake.move(127);
+  chassis.pid_odom_set(-15_in, 75);
+  pros::delay(1000);
 
-  // Wait for three seconds to give it time to score the blocks
-  pros::delay(3000);
+  chassis.pid_odom_set(5_in, 75);
+  pros::delay(300);
+  chassis.pid_odom_set(-5_in, 75);
+  pros::delay(500);
 
-  // Drive 10" back towards the matchloader
-  chassis.pid_drive_set(10_in, 40);
-  chassis.pid_wait();
-  
-  // Turn right to prepare for pushing blocks
-  chassis.pid_turn_set(180_deg, 60);
-  chassis.pid_wait();
 
-  // Activate descore wing
-  descorePiston.set_value(true);
-
-  // Drive forward a bit to align with the side of the long goal
-  chassis.pid_drive_set(-15_in, 30);
-  chassis.pid_wait();
-
-  // Turn 90 degrees to face long goal
-  chassis.pid_turn_set(90_deg, 60);
-  chassis.pid_wait();
-
-  // Run into long goal with descore wing to push the blocks into the control bonus
-  chassis.pid_drive_set(-32_in, 100);
-  chassis.pid_wait();
-
-  // Stop intake to save battery and motor temp
-  setIntake(0);
-*/
-
-/*
-
-  
-
-*/
-
-/*
-chassis.odom_xyt_set(0_in, 0_in, 0_deg);
-chassis.pid_wait();
-chassis.pid_odom_set({0_in, -38.204_in}, 90);
-chassis.pid_wait();
-chassis.pid_odom_set({-12.873_in, -37.997_in}, 90);
-chassis.pid_wait();
-chassis.pid_odom_set({29.068_in, -37.374_in}, 90);
-chassis.pid_wait();
-chassis.pid_odom_set({29.068_in, -51.493_in}, 90);
-chassis.pid_wait();
-chassis.pid_odom_set({102.155_in, -50.662_in}, 90);
-chassis.pid_wait();
-chassis.pid_odom_set({101.739_in, -36.543_in}, 90);
-chassis.pid_wait();
-chassis.pid_odom_set({121.464_in, -36.751_in}, 90);
-chassis.pid_wait();
-chassis.pid_odom_set({81.184_in, -37.374_in}, 90);
-chassis.pid_wait();
-chassis.pid_odom_set({101.532_in, -15.365_in}, 90);
-chassis.pid_wait();
-chassis.pid_odom_set({102.362_in, 57.514_in}, 90);
-chassis.pid_wait();
-chassis.pid_odom_set({122.295_in, 56.476_in}, 90);
-chassis.pid_wait();
-chassis.pid_odom_set({82.222_in, 57.306_in}, 90);
-chassis.pid_wait();
-chassis.pid_odom_set({81.392_in, 71.425_in}, 90);
-chassis.pid_wait();
-chassis.pid_odom_set({26.784_in, 71.84_in}, 90);
-chassis.pid_wait();
-chassis.pid_odom_set({9.759_in, 56.476_in}, 90);
-chassis.pid_wait();
-chassis.pid_odom_set({-10.797_in, 56.476_in}, 90);
-chassis.pid_wait();
-chassis.pid_odom_set({29.276_in, 56.476_in}, 90);
-chassis.pid_wait();
-chassis.pid_odom_set({7.682_in, 33.221_in}, 90);
-chassis.pid_wait();
-chassis.pid_odom_set({-12.25_in, 33.636_in}, 90);
-chassis.pid_wait();
-chassis.pid_odom_set({-11.835_in, 9.966_in}, 90);
-chassis.pid_wait();
 */

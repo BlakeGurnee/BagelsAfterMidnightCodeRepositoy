@@ -9,7 +9,7 @@ extern pros::Motor upperIntake;
 
 // -------- PNEUMATICS -------- //
 extern pros::adi::Pneumatics matchloadPiston;
-extern pros::adi::Pneumatics centerGoalPiston;
+//extern pros::adi::Pneumatics centerGoalPiston;
 extern pros::adi::Pneumatics descorePiston;
 
 

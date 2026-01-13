@@ -11,7 +11,7 @@ ez::Drive chassis(
     450);   // Wheel RPM = cartridge * (motor gear / wheel gear)
 
 // Vertical Tracking Wheel
-ez::tracking_wheel vert_tracker(-3, 2.75, 4.0);   // This tracking wheel is parallel to the drive wheels
+ez::tracking_wheel vert_tracker(-3, 2, 4.0);   // This tracking wheel is parallel to the drive wheels
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -299,17 +299,6 @@ void opcontrol() {
         }
     }
     
-    if (master.get_digital_new_press(DIGITAL_X)) // Center Goal Scoring
-    {
-      if (centerGoalPiston.is_extended())
-        {
-          centerGoalPiston.retract();
-        }
-      else
-        {
-          centerGoalPiston.extend();
-        }
-    }
 
     if (master.get_digital_new_press(DIGITAL_RIGHT)) // Reverse Intake
     {

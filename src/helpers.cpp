@@ -29,15 +29,3 @@ void matchloadSwitch()
     matchloadPiston.extend();
   }
 }
-
-void centerGoalSwitch()
-{
- if (centerGoalPiston.is_extended())
-  {
-    centerGoalPiston.retract();
-  }
- else
-  {
-    centerGoalPiston.extend();
-  }
-}

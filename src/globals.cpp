@@ -7,7 +7,7 @@ pros::Motor upperIntake(-2, pros::v5::MotorGears::blue); // Motor is a normal bl
 // -------- PNEUMATICS --------//
 pros::adi::Pneumatics matchloadPiston('A', false); // Starts matchload in the true (Up) position when the code starts in port A
 pros::adi::Pneumatics descorePiston('B', false); // Starts descore in the false (Down) position when the code starts in port B
-pros::adi::Pneumatics centerGoalPiston('C', true); // Center goal Piston in port E
+//pros::adi::Pneumatics matchloadPiston2('C', false); // Center goal Piston in port E
 
 // -------- SENSORS --------//
 pros::Optical optical_sensor(9); // Optical Sensor in port 9
