@@ -6,6 +6,18 @@ void setIntake(int intakePower)
   upperIntake.move(intakePower);
 }
 
+void stopIntake() 
+{
+  lowerIntake.move(0);
+  upperIntake.move(0);
+}
+
+void discardBlock(int intakePower)
+{
+  lowerIntake.move(intakePower);
+  upperIntake.move(-intakePower);
+}
+
 void descoreSwitch()
 {
  if (descorePiston.is_extended())

@@ -3,15 +3,18 @@
 // Chassis constructor
 ez::Drive chassis(
     // Drive Motors
-    {-16, -17, 14},     // Left Chassis Ports (negative will reverse it)
-    {7, 20, -18},  // Right Chassis Ports (negative will reverse it)
+    {-18, -17, -16},     // Left Chassis Ports (negative will reverse it)
+    {8, 9, 10},  // Right Chassis Ports (negative will reverse it)
 
     11,      // IMU Port
     3.25,  // Wheel Diameter
-    450);   // Wheel RPM = cartridge * (motor gear / wheel gear)
+    360);   // Wheel RPM = cartridge * (motor gear / wheel gear)
 
 // Vertical Tracking Wheel
-ez::tracking_wheel vert_tracker(-3, 2, 4.0);   // This tracking wheel is parallel to the drive wheels
+ez::tracking_wheel vert_tracker(-3, 2, -0.2);   // This tracking wheel is parallel to the drive wheels
+
+// Horizontal Tracking Wheel
+ez::tracking_wheel horiz_tracker(15, 2, -2.49);  // This tracking wheel is perpendicular to the drive wheels
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -30,11 +33,12 @@ void initialize() {
   // Look at your horizontal tracking wheel and decide if it's in front of the midline of your robot or behind it
   //  - change `back` to `front` if the tracking wheel is in front of the midline
   //  - ignore this if you aren't using a horizontal tracker
-  // chassis.odom_tracker_back_set(&horiz_tracker);
+  chassis.odom_tracker_back_set(&horiz_tracker);
   // Look at your vertical tracking wheel and decide if it's to the left or right of the center of the robot
   //  - change `left` to `right` if the tracking wheel is to the right of the centerline
   //  - ignore this if you aren't using a vertical tracker
   chassis.odom_tracker_left_set(&vert_tracker);
+
 
   // Configure your chassis controls
   chassis.opcontrol_curve_buttons_toggle(true);   // Enables modifying the controller curve with buttons on the joysticks
@@ -60,19 +64,24 @@ void initialize() {
       {"Pure Pursuit Wait Until\n\nGo to (24, 24) but start running an intake once the robot passes (12, 24)", odom_pure_pursuit_wait_until_example},
       {"Boomerang\n\nGo to (0, 24, 45) then come back to (0, 0, 0)", odom_boomerang_example},
       {"Boomerang Pure Pursuit\n\nGo to (0, 24, 45) on the way to (24, 24) then come back to (0, 0, 0)", odom_boomerang_injected_pure_pursuit_example},
-      {"Measure Offsets\n\nThis will turn the robot a bunch of times and calculate your offsets for your tracking wheels.", measure_offsets},
       */
+
+      {"Measure Offsets\n\nThis will turn the robot a bunch of times and calculate your offsets for your tracking wheels.", measure_offsets},
+      
 
       {"Red Right\n\nAuton for Red alliance right side", redRightMain},
       {"Red Right Elim\n\nAuton for Red alliance right side elimination", redRightElim},
+      {"Red Right Solo Win Point\n\nAuton for Red right side alliance for solo win point", redRightSWP},
       {"Red Left\n\nAuton for Red alliance left side", redLeftMain},
       {"Red Left Elim\n\nAuton for Red alliance left side elimination", redLeftElim},
+      {"Red Left Solo Win Point\n\nAuton for Red left side alliance for solo win point", redLeftSWP},
       {"Blue Right\n\nAuton for Blue alliance right side", blueRightMain},
       {"Blue Right Elim\n\nAuton for Blue alliance right side elimination", blueRightElim},
+      {"Blue Right Solo Win Point\n\nAuton for Blue right side alliance for solo win point", blueRightSWP},
       {"Blue Left\n\nAuton for Blue alliance left side", blueLeftMain},
       {"Blue Left Elim\n\nAuton for Blue alliance left side elimination", blueLeftElim},
+      {"Blue Left Solo Win Point\n\nAuton for Blue left side alliance for solo win point", blueLeftSWP},
       {"Skills\n\nAuton for Skills Challenge", skillsMain},
-      {"Display Image\n\nDisplays an image on the brain screen", display_image},
   });
 
   // Initialize chassis and auton selector
@@ -106,6 +115,7 @@ void disabled() {
  */
 void competition_initialize() {
   // . . .
+
 }
 
 /**

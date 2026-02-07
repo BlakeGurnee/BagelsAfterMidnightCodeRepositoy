@@ -1,8 +1,8 @@
 #include "main.h"
 
 // -------- MOTORS --------//
-pros::Motor lowerIntake(15, pros::v5::MotorGears::blue); // Motor is a reversed blue motor on port 4
-pros::Motor upperIntake(-2, pros::v5::MotorGears::blue); // Motor is a normal blue motor on port 16
+pros::Motor lowerIntake(-4, pros::v5::MotorGears::blue); // Motor is a reversed blue motor on port 4
+pros::Motor upperIntake(-5, pros::v5::MotorGears::blue); // Motor is a normal blue motor on port 16
 
 // -------- PNEUMATICS --------//
 pros::adi::Pneumatics matchloadPiston('A', false); // Starts matchload in the true (Up) position when the code starts in port A
