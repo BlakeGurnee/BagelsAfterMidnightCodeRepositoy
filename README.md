@@ -1,6 +1,6 @@
 ![Logo](https://github.com/BlakeGurnee/BagelsAfterMidnightCodeRepositoy/blob/b6b9c29a12a2e88e640c88cc315c3708b768defa/image.png)
 
-# 📢 8031B Bagles After Midnight - 2025 - 2026 "Push Back" Code Repository
+# 📢 8031B Bagles After Midnight - 2025 - 2026 Push Back Code Repository
 
 Welcome to the official codebase for 8031B Bagels After Midnight's robot in the 2025 - 2026 VEX Robotics competition, "Push Back." Here lies the source code for our robot, written in C++ using the PROS development environment and the EZ Template.
 
