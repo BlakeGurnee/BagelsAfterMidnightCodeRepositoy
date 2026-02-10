@@ -1,4 +1,4 @@
-![Logo](https://github.com/BlakeGurnee/BagelsAfterMidnight_PushBackCodeRepository/blob/main/Bagels%20After%20Midnight.png)
+![Logo](https://github.com/BlakeGurnee/BagelsAfterMidnightCodeRepositoy/blob/b6b9c29a12a2e88e640c88cc315c3708b768defa/image.png)
 
 # 📢 8031B Bagles After Midnight - 2025 - 2026 "Push Back" Code Repository
 
