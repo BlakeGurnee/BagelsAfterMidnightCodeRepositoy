@@ -15,8 +15,9 @@ extern pros::adi::Pneumatics descorePiston;
 
 // -------- SENSORS -------- //
 extern pros::Optical optical_sensor;
-extern pros::Distance frontSensor;
+extern pros::Distance backSensor;
 extern pros::Distance rightSensor;
+extern pros::Distance leftSensor;
 extern pros::Imu imu;
 
 // -------- VARIABLES -------- //

@@ -11,10 +11,10 @@ ez::Drive chassis(
     360);   // Wheel RPM = cartridge * (motor gear / wheel gear)
 
 // Vertical Tracking Wheel
-ez::tracking_wheel vert_tracker(-3, 2, -0.2);   // This tracking wheel is parallel to the drive wheels
+ez::tracking_wheel vert_tracker(-3, 2, -0.25);   // This tracking wheel is parallel to the drive wheels
 
 // Horizontal Tracking Wheel
-ez::tracking_wheel horiz_tracker(15, 2, -2.49);  // This tracking wheel is perpendicular to the drive wheels
+ez::tracking_wheel horiz_tracker(15, 2, -1.82);  // This tracking wheel is perpendicular to the drive wheels
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -66,7 +66,7 @@ void initialize() {
       {"Boomerang Pure Pursuit\n\nGo to (0, 24, 45) on the way to (24, 24) then come back to (0, 0, 0)", odom_boomerang_injected_pure_pursuit_example},
       */
 
-      {"Measure Offsets\n\nThis will turn the robot a bunch of times and calculate your offsets for your tracking wheels.", measure_offsets},
+     // {"Measure Offsets\n\nThis will turn the robot a bunch of times and calculate your offsets for your tracking wheels.", measure_offsets},
       
 
       {"Red Right\n\nAuton for Red alliance right side", redRightMain},
@@ -93,6 +93,8 @@ void initialize() {
   optical_sensor.set_integration_time(5);
 
   master.rumble(chassis.drive_imu_calibrated() ? "." : "---");
+
+  //chassis.pid_tuner_disable();  // Enable the PID tuner, this gives you a GUI to tune your PID values live in the driver control period.  We recommend disabling this for competition runs.
 }
 
 /**
@@ -310,9 +312,10 @@ void opcontrol() {
     }
     
 
-    if (master.get_digital_new_press(DIGITAL_RIGHT)) // Reverse Intake
+    if (master.get_digital_new_press(DIGITAL_RIGHT)) // Stop Intake
     {
-      setIntake(0); // Stop intake
+      upperIntake.move(0);
+      lowerIntake.move(0);
       intakeActive = false;
       intakeState = 0;
     }
