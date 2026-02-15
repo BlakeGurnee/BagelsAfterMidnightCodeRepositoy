@@ -1,6 +1,6 @@
 #include "main.h"
 
-void redRightMain() {
+void redRightElim() {
   // Set odom position to (0, 0, 0)
   chassis.odom_xyt_set(0_in, 0_in, 0_deg);
 
@@ -12,7 +12,8 @@ void redRightMain() {
   chassis.pid_turn_set(20_deg, 90);
   chassis.pid_wait();
 
-  lowerIntake.move(100); // Start lower intake
+  // Start block hold
+  blockHold();
 
   // Wait a split second before activating matchload
   pros::delay(500);
@@ -42,7 +43,8 @@ void redRightMain() {
   chassis.pid_odom_set(-25_in, 100);
   pros::delay(1000); // Wait to ensure blocks have scored
 
-  upperIntake.move(127); // Start upper intake to score
+  // Intake to score
+  setIntake(127);
 
   pros::delay(1500); // Wait for 3 seconds to score
 
@@ -54,8 +56,6 @@ void redRightMain() {
   chassis.pid_wait();
   chassis.pid_odom_set(30_in, 80);
   chassis.pid_wait();
-  
-  
   pros::delay(800); // Short delay for matchloading
 
   // Make sure robot is still aligned
@@ -69,7 +69,7 @@ void redRightMain() {
   matchloadPiston.set_value(false);
 
   // Activate full intake to score the blocks
-  upperIntake.move(127);
+  setIntake(127);
 
   // Wait for three seconds to give it time to score the blocks
   pros::delay(3000);

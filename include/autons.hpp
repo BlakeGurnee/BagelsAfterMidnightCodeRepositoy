@@ -21,13 +21,11 @@ void display_image();
 // Custon Autons in separate files //
 void redLeftMain();
 void redLeftElim();
-void redLeftSWP();
 void redRightMain();
 void redRightElim();
 void redRightSWP();
 void blueLeftMain();
 void blueLeftElim();
-void blueLeftSWP();
 void blueRightMain();
 void blueRightElim();
 void blueRightSWP();

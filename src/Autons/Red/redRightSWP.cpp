@@ -13,7 +13,7 @@ void redRightSWP() {
   chassis.pid_wait();
 
   // Activate Block Hold Intake and drive into matchloader
-  lowerIntake.move(127);
+  blockHold();
   chassis.pid_odom_set(10_in, 60);  
   chassis.pid_wait();
 
@@ -25,7 +25,7 @@ void redRightSWP() {
   chassis.pid_wait();
 
   // Activate full intake to score the blocks
-  upperIntake.move(127);
+  setIntake(127);
 
   // De-activate matchload Piston
   matchloadPiston.set_value(false);
@@ -41,8 +41,8 @@ void redRightSWP() {
   chassis.pid_turn_relative_set(35_deg, 90);
   chassis.pid_wait();
 
-  // Set lower intake to hold blocks
-  lowerIntake.move(127);
+  // Block Hold
+  blockHold();
 
   // Drive to blocks and intake them
   chassis.pid_odom_set(15_in, 60);  

@@ -9,19 +9,11 @@ extern pros::Motor upperIntake;
 
 // -------- PNEUMATICS -------- //
 extern pros::adi::Pneumatics matchloadPiston;
-//extern pros::adi::Pneumatics centerGoalPiston;
 extern pros::adi::Pneumatics descorePiston;
 
 
 // -------- SENSORS -------- //
-extern pros::Optical optical_sensor;
 extern pros::Distance backSensor;
 extern pros::Distance rightSensor;
 extern pros::Distance leftSensor;
 extern pros::Imu imu;
-
-// -------- VARIABLES -------- //
-extern bool Red_Alliance;
-extern bool antiJamEnabled;
-extern bool intakeActive;
-extern int intakeState; // 0 = OFF, 1 = IN, -1 = OUT

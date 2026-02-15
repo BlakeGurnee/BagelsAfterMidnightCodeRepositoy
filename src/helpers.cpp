@@ -6,6 +6,24 @@ void setIntake(int intakePower)
   upperIntake.move(intakePower);
 }
 
+void blockHold()
+{
+  upperIntake.move(-50);
+  lowerIntake.move(127);
+}
+
+void midGoal()
+{
+  upperIntake.move(0);
+  lowerIntake.move(100);
+}
+
+void lowGoal()
+{
+  upperIntake.move(0);
+  lowerIntake.move(-100);
+}
+
 void stopIntake() 
 {
   lowerIntake.move(0);

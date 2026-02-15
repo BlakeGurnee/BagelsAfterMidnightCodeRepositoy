@@ -68,29 +68,27 @@ void initialize() {
 
      // {"Measure Offsets\n\nThis will turn the robot a bunch of times and calculate your offsets for your tracking wheels.", measure_offsets},
       
-
+      // Red Alliance Autons
       {"Red Right\n\nAuton for Red alliance right side", redRightMain},
       {"Red Right Elim\n\nAuton for Red alliance right side elimination", redRightElim},
       {"Red Right Solo Win Point\n\nAuton for Red right side alliance for solo win point", redRightSWP},
       {"Red Left\n\nAuton for Red alliance left side", redLeftMain},
       {"Red Left Elim\n\nAuton for Red alliance left side elimination", redLeftElim},
-      {"Red Left Solo Win Point\n\nAuton for Red left side alliance for solo win point", redLeftSWP},
+
+      // Blue Alliance Autons
       {"Blue Right\n\nAuton for Blue alliance right side", blueRightMain},
       {"Blue Right Elim\n\nAuton for Blue alliance right side elimination", blueRightElim},
       {"Blue Right Solo Win Point\n\nAuton for Blue right side alliance for solo win point", blueRightSWP},
       {"Blue Left\n\nAuton for Blue alliance left side", blueLeftMain},
       {"Blue Left Elim\n\nAuton for Blue alliance left side elimination", blueLeftElim},
-      {"Blue Left Solo Win Point\n\nAuton for Blue left side alliance for solo win point", blueLeftSWP},
+
+      // Skills Auton
       {"Skills\n\nAuton for Skills Challenge", skillsMain},
   });
 
   // Initialize chassis and auton selector
   chassis.initialize();
   ez::as::initialize();
-
-   // Initialize the optical sensor for color sorting
-  optical_sensor.set_led_pwm(100);
-  optical_sensor.set_integration_time(5);
 
   master.rumble(chassis.drive_imu_calibrated() ? "." : "---");
 
@@ -270,72 +268,46 @@ void opcontrol() {
     if (master.get_digital(DIGITAL_L1)) // Normal intake
     {
       setIntake(127);
-      intakeState = 1;
-      intakeActive = true;
-      //startColorSortTask(); // Call color sort control to handle intake based on color  
     }
     else if (master.get_digital(DIGITAL_L2)) // Normal Intake Reverse
     {
       setIntake(-127);
-      intakeActive = false;
-      intakeState = -1;
-      //stopColorSortTask();
-    }
-    else if (master.get_digital(DIGITAL_UP)) // Outtake
-    {
-      upperIntake.move(-127);
-      lowerIntake.move(-127);
-      intakeState = -1;
     }
     else if (master.get_digital(DIGITAL_R1)) // Block Hold Intake
     {
-      upperIntake.move(0);
-      lowerIntake.move(127);
-      intakeState = -1;
+      blockHold();
     }
     else if (master.get_digital(DIGITAL_R2)) // Block Hold Intake Stop
     {
       setIntake(0);
-      intakeState = 0;
+    }
+
+    if (master.get_digital_new_press(DIGITAL_RIGHT)) // Stop Intake
+    {
+      stopIntake();
+    }
+
+    if (master.get_digital_new_press(DIGITAL_A)) // Mid Goal Scoring
+    {
+      midGoal();
     }
 
     if (master.get_digital_new_press(DIGITAL_B)) // Matchload piston toggle
     {
-      if (matchloadPiston.is_extended())
-        {
-          matchloadPiston.retract();
-        }
-      else
-        {
-          matchloadPiston.extend();
-        }
-    }
-    
-
-    if (master.get_digital_new_press(DIGITAL_RIGHT)) // Stop Intake
-    {
-      upperIntake.move(0);
-      lowerIntake.move(0);
-      intakeActive = false;
-      intakeState = 0;
+      matchloadSwitch();
     }
 
     if (master.get_digital_new_press(DIGITAL_DOWN)) // Descore piston toggle
     {
-      if (descorePiston.is_extended())
-        {
-          descorePiston.retract();
-        }
-      else
-        {
-          descorePiston.extend();
-        }
+      descoreSwitch();
     }
     
+    /* Testing without a comp switch only
     if (master.get_digital(DIGITAL_B) && master.get_digital(DIGITAL_DOWN)) // Have the auton run if we hit the B and Down button makes it so we don't need to have a comp switch to test autons
     {
       autonomous();
     }
+    */
 
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
