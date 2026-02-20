@@ -48,6 +48,7 @@
 #include "globals.hpp"
 #include "helpers.hpp"
 #include "distance.hpp"
+#include "splash_screens.hpp"
 
 /**
  * If you find doing pros::Motor() to be tedious and you'd prefer just to do

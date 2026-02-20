@@ -1,7 +1,7 @@
 #include "main.h"
 
-void blueRightSWP() {
+void blueSWP() {
   // Your auton code here :)
   chassis.odom_x_flip();
-  redRightSWP();
+  redSWP();
 }

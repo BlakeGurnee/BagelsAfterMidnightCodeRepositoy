@@ -1,6 +1,6 @@
 #include "main.h"
 
-void redRightSWP() {
+void redSWP() {
 // Drive to matchloader
   chassis.pid_odom_set(35_in, 110);  
   chassis.pid_wait();
