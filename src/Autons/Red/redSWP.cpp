@@ -1,7 +1,10 @@
 #include "main.h"
 
 void redSWP() {
-// Drive to matchloader
+  // Set odom position to (0, 0, 0)
+  chassis.odom_xyt_set(0_in, 0_in, 0_deg);
+
+  // Drive to matchloader
   chassis.pid_odom_set(35_in, 110);  
   chassis.pid_wait();
   
@@ -55,6 +58,4 @@ void redSWP() {
   // Drive to blocks
   chassis.pid_odom_set(15_in, 90);  
   chassis.pid_wait();
-
- 
 }

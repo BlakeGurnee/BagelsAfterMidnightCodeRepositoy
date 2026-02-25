@@ -99,56 +99,67 @@ void autonomous() {
     switch(autonSelection) {
         case 1:
             // Red Left Main
+            pros::lcd::print(0, "Running Red Left Main");
             redLeftMain();
             break;
             
         case 2:
             // Red Right Main
+            pros::lcd::print(0, "Running Red Right Main");
             redRightMain();
             break;
             
         case 3:
             // Red Left Elim
+            pros::lcd::print(0, "Running Red Left Elim");
             redLeftElim();
             break;
             
         case 4:
             // Red Right Elim
+            pros::lcd::print(0, "Running Red Right Elim");
             redRightElim();
             break;
             
         case 5:
             // Red SWP
+            pros::lcd::print(0, "Running Red SWP");
             redSWP();
             break;
             
         case 6:
             // Blue Left Main
+            pros::lcd::print(0, "Running Blue Left Main");
             blueLeftMain();
             break;
             
         case 7:
             // Blue Right Main
+            pros::lcd::print(0, "Running Blue Right Main");
             blueRightMain();
             break;
             
         case 8:
             // Blue Left Elim
+            pros::lcd::print(0, "Running Blue Left Elim");
             blueLeftElim();
             break;
             
         case 9:
             // Blue Right Elim
+            pros::lcd::print(0, "Running Blue Right Elim");
             blueRightElim();
             break;
             
         case 10:
             // Blue SWP
+            pros::lcd::print(0, "Running Blue SWP");
             blueSWP();
             break;
-            
+
         case 11:
             // SKILLS
+            pros::lcd::print(0, "Running SKILLS");
             skillsMain();
             break;
             
@@ -206,7 +217,7 @@ void opcontrol() {
 
     if (master.get_digital_new_press(DIGITAL_A)) // Mid Goal Scoring
     {
-      midGoal();
+      centerGoalSwitch();
     }
 
     if (master.get_digital_new_press(DIGITAL_B)) // Matchload piston toggle

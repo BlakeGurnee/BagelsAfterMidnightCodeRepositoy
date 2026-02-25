@@ -5,7 +5,7 @@ int autonSelection = 0;
 bool autonConfirmed = false;
 
 // Store button objects globally so we can update them
-static lv_obj_t* autonButtons[11];  // 10 match autons + 1 skills
+static lv_obj_t* autonButtons[10];
 static lv_obj_t* statusLabel;
 
 // Button click event handlers
@@ -18,12 +18,12 @@ static void autonButtonClicked(lv_event_t* e) {
     lv_obj_t* btn = lv_event_get_target(e);
     
     // Find which button it was
-    for (int i = 0; i < 11; i++) {
+    for (int i = 0; i < 10; i++) {
         if (autonButtons[i] == btn) {
             autonSelection = i + 1;
             
             // Update button styles
-            for (int j = 0; j < 11; j++) {
+            for (int j = 0; j < 10; j++) {
                 if (j == i) {
                     // Selected style (yellow)
                     lv_obj_set_style_bg_color(autonButtons[j], BAGELS_YELLOW, 0);
@@ -31,24 +31,18 @@ static void autonButtonClicked(lv_event_t* e) {
                     lv_obj_set_style_border_width(autonButtons[j], 3, 0);
                     lv_obj_set_style_text_color(autonButtons[j], MIDNIGHT_BLUE, 0);
                 } else {
-                    // Unselected style - red or blue based on alliance, purple for skills
+                    // Unselected style - red or blue based on alliance
                     if (j < 5) {
                         // Red alliance buttons
                         lv_obj_set_style_bg_color(autonButtons[j], lv_color_make(80, 20, 20), 0);
                         lv_obj_set_style_border_color(autonButtons[j], BAGELS_RED, 0);
-                        lv_obj_set_style_text_color(autonButtons[j], BAGELS_WHITE, 0);
-                    } else if (j < 10) {
+                    } else {
                         // Blue alliance buttons
                         lv_obj_set_style_bg_color(autonButtons[j], lv_color_make(20, 30, 80), 0);
                         lv_obj_set_style_border_color(autonButtons[j], BAGELS_BLUE, 0);
-                        lv_obj_set_style_text_color(autonButtons[j], BAGELS_WHITE, 0);
-                    } else {
-                        // Skills button
-                        lv_obj_set_style_bg_color(autonButtons[j], lv_color_make(100, 50, 150), 0);
-                        lv_obj_set_style_border_color(autonButtons[j], BAGELS_WHITE, 0);
-                        lv_obj_set_style_text_color(autonButtons[j], BAGELS_WHITE, 0);
                     }
                     lv_obj_set_style_border_width(autonButtons[j], 2, 0);
+                    lv_obj_set_style_text_color(autonButtons[j], BAGELS_WHITE, 0);
                 }
             }
             
@@ -63,13 +57,16 @@ static void autonButtonClicked(lv_event_t* e) {
                 "Blue Right Main", 
                 "Blue Left Elim", 
                 "Blue Right Elim",
-                "Blue SWP",
-                "SKILLS"
+                "Blue SWP"
             };
             lv_label_set_text(statusLabel, statusTexts[i]);
             break;
         }
     }
+}
+
+static void confirmClicked(lv_event_t* e) {
+    autonConfirmed = true;
 }
 
 // SPLASH SCREEN - Shows when robot turns on
@@ -83,18 +80,18 @@ void showSplashScreen() {
     // Display your first image
     lv_obj_t* splashImg = lv_img_create(scr);
     lv_img_set_src(splashImg, &midnight_bagels_splash);
-    lv_obj_align(splashImg, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_align(splashImg, LV_ALIGN_CENTER, 0, -20);
     
-    // Continue button - positioned to cover the button in the image
+    // Continue button
     lv_obj_t* continueBtn = lv_btn_create(scr);
-    lv_obj_set_size(continueBtn, 120, 45);  // Size to match image button
-    lv_obj_align(continueBtn, LV_ALIGN_CENTER, 0, 72);  // Moved up to overlay image button
+    lv_obj_set_size(continueBtn, 150, 50);
+    lv_obj_align(continueBtn, LV_ALIGN_CENTER, 0, 60);
     
-    // Style the button to match image style
+    // Style the button
     lv_obj_set_style_bg_color(continueBtn, MIDNIGHT_BLUE, 0);
     lv_obj_set_style_border_color(continueBtn, BAGELS_WHITE, 0);
     lv_obj_set_style_border_width(continueBtn, 3, 0);
-    lv_obj_set_style_radius(continueBtn, 8, 0);
+    lv_obj_set_style_radius(continueBtn, 10, 0);
     
     // Button label
     lv_obj_t* continueLabel = lv_label_create(continueBtn);
@@ -138,7 +135,7 @@ void createAutonSelector() {
     lv_obj_set_style_text_color(blueLabel, BAGELS_BLUE, 0);
     lv_obj_set_pos(blueLabel, 360, 38);
     
-    // Button text for all 10 autons - shorter labels
+    // Button text for all 10 autons
     const char* btnTexts[] = {
         "Left\nMain",      // Red
         "Right\nMain",
@@ -224,26 +221,52 @@ void createAutonSelector() {
     lv_obj_align(statusLabel, LV_ALIGN_CENTER, 0, 8);
     lv_obj_set_style_text_align(statusLabel, LV_TEXT_ALIGN_CENTER, 0);
     
-    // SKILLS button (bottom center - replaces CONFIRM)
-    autonButtons[10] = lv_btn_create(scr);
-    lv_obj_set_size(autonButtons[10], 230, 40);
-    lv_obj_set_pos(autonButtons[10], 125, 145);
+    // SKILLS button (replaces confirm button, center bottom)
+    lv_obj_t* skillsBtn = lv_btn_create(scr);
+    lv_obj_set_size(skillsBtn, 230, 50);
+    lv_obj_set_pos(skillsBtn, 125, 140);
     
-    lv_obj_set_style_bg_color(autonButtons[10], lv_color_make(100, 50, 150), 0);  // Purple
-    lv_obj_set_style_radius(autonButtons[10], 8, 0);
-    lv_obj_set_style_border_color(autonButtons[10], BAGELS_WHITE, 0);
-    lv_obj_set_style_border_width(autonButtons[10], 2, 0);
+    lv_obj_set_style_bg_color(skillsBtn, lv_color_make(150, 100, 200), 0);  // Purple color for skills
+    lv_obj_set_style_radius(skillsBtn, 8, 0);
+    lv_obj_set_style_border_color(skillsBtn, BAGELS_WHITE, 0);
+    lv_obj_set_style_border_width(skillsBtn, 3, 0);
     
-    lv_obj_t* skillsLabel = lv_label_create(autonButtons[10]);
+    lv_obj_t* skillsLabel = lv_label_create(skillsBtn);
     lv_label_set_text(skillsLabel, "SKILLS");
     lv_obj_set_style_text_color(skillsLabel, BAGELS_WHITE, 0);
     lv_obj_center(skillsLabel);
     
-    lv_obj_add_event_cb(autonButtons[10], autonButtonClicked, LV_EVENT_CLICKED, NULL);
+    // Skills button click handler - sets autonSelection to 11
+    lv_obj_add_event_cb(skillsBtn, [](lv_event_t* e) {
+        autonSelection = 11;  // Skills is selection #11
+        autonConfirmed = true;  // Auto-confirm when skills is selected
+        
+        // Update all match auton buttons to unselected
+        for (int j = 0; j < 10; j++) {
+            if (j < 5) {
+                lv_obj_set_style_bg_color(autonButtons[j], lv_color_make(80, 20, 20), 0);
+                lv_obj_set_style_border_color(autonButtons[j], BAGELS_RED, 0);
+            } else {
+                lv_obj_set_style_bg_color(autonButtons[j], lv_color_make(20, 30, 80), 0);
+                lv_obj_set_style_border_color(autonButtons[j], BAGELS_BLUE, 0);
+            }
+            lv_obj_set_style_border_width(autonButtons[j], 2, 0);
+            lv_obj_set_style_text_color(autonButtons[j], BAGELS_WHITE, 0);
+        }
+        
+        // Update status
+        lv_label_set_text(statusLabel, "SKILLS");
+        
+        // Make the skills button look selected
+        lv_obj_t* btn = lv_event_get_target(e);
+        lv_obj_set_style_bg_color(btn, BAGELS_YELLOW, 0);
+        lv_obj_set_style_border_width(btn, 4, 0);
+        lv_obj_set_style_text_color(btn, MIDNIGHT_BLUE, 0);
+    }, LV_EVENT_CLICKED, NULL);
     
     // Info text at bottom
     lv_obj_t* infoLabel = lv_label_create(scr);
-    lv_label_set_text(infoLabel, "Tap any button to select");
+    lv_label_set_text(infoLabel, "Select any autonomous routine");
     lv_obj_set_style_text_color(infoLabel, lv_color_make(150, 150, 150), 0);
     lv_obj_align(infoLabel, LV_ALIGN_BOTTOM_MID, 0, -5);
 }

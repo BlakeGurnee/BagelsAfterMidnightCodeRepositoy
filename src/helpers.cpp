@@ -17,8 +17,8 @@ void blockHold()
 // Mid Goal function sets the upper intake to 0 and the lower intake to full power to score on the mid goal
 void midGoal()
 {
-  upperIntake.move(0);
-  lowerIntake.move(100);
+  upperIntake.move(-100);
+  lowerIntake.move(110);
 }
 
 // Low Goal function sets the upper intake to 0 and the lower intake to reverse slowly to score on the low goal
@@ -65,5 +65,20 @@ void matchloadSwitch()
  else
   {
     matchloadPiston.extend();
+  }
+}
+
+// Center Goal Switch function toggles the center goal piston between the extended and retracted position
+void centerGoalSwitch()
+{
+ if (centerGoalPiston.is_extended())
+  {
+    setIntake(0); // Stop the intake to prevent scoring while toggling the center goal piston
+    centerGoalPiston.retract();
+  }
+ else
+  {
+    midGoal();
+    centerGoalPiston.extend();
   }
 }
