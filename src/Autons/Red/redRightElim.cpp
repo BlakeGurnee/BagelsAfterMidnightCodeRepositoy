@@ -9,21 +9,21 @@ void redRightElim() {
   chassis.pid_wait();
 
   // Turn to face the blocks
-  chassis.pid_turn_set(20_deg, 90);
+  chassis.pid_turn_set(23_deg, 90);
   chassis.pid_wait();
 
   // Start block hold
   blockHold();
 
-  // Wait a split second before activating matchload
-  pros::delay(200);
-
-  // Set Matchloader
-  matchloadPiston.set_value(true);
-
   // Drive forward to collect blocks
   chassis.pid_odom_set(20_in, 60);
+
+  pros::delay(400);
+  // Set Matchloader
+  matchloadPiston.set_value(true);
+  
   chassis.pid_wait();
+
 
   pros::delay(600); // Give time to collect blocks
 
@@ -54,12 +54,13 @@ void redRightElim() {
   // Drive forward to matchloader
   chassis.pid_turn_set(180_deg, 75);
   chassis.pid_wait();
-  chassis.pid_odom_set(30_in, 80);
+  chassis.pid_odom_set(30_in, 75);
   chassis.pid_wait();
+
   pros::delay(600); // Short delay for matchloading
 
   // Make sure robot is still aligned
-  chassis.pid_turn_set(180_deg, 75);
+  //chassis.pid_turn_set(180_deg, 75);
 
   // Drive backwards into the long goal
   chassis.pid_odom_set(-30_in, 110);

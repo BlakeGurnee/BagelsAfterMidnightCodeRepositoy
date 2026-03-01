@@ -7,7 +7,7 @@ void redRightMain() {
   // Drive to matchloader
   chassis.pid_odom_set(35_in, 110);  
   chassis.pid_wait();
-  
+ 
   // Activate Matchload Piston
   matchloadPiston.set_value(true);
 
@@ -20,9 +20,12 @@ void redRightMain() {
   chassis.pid_odom_set(10_in, 60);  
   chassis.pid_wait();
 
+
   // Short delay to give the intake time to collect the blocks
   pros::delay(300);
 
+
+  // Align with long goal
   chassis.pid_turn_set(90_deg, 90);
   chassis.pid_wait();
  
@@ -30,75 +33,85 @@ void redRightMain() {
   chassis.pid_odom_set(-30_in, 110);  
   chassis.pid_wait();
 
+
   // Activate full intake to score the blocks
   setIntake(127);
+
 
   // De-activate matchload Piston
   matchloadPiston.set_value(false);
 
+
   // Wait for a few seconds to give it time to score the blocks
   pros::delay(1400);
  
+ // Drive forward towards the matchloader
+  chassis.pid_odom_set(15_in, 80);  
+  chassis.pid_wait();
 
-  printf("Y direction: %d\n", chassis.odom_y_direction_get());
-  pros::delay(500);
 
-  // Swing off long goal to blocks
-   if (chassis.odom_y_direction_get() == true) {
-      chassis.pid_swing_relative_set(ez::LEFT_SWING, -80_deg, 110);
+  // If left side turn a different direction
+  if (chassis.odom_y_direction_get() == true) {
+      // Turn to the blocks
+      chassis.pid_turn_relative_set(-55_deg, 90);
       chassis.pid_wait();
-      printf("Swinging left\n");
-      
-   } else 
-   {
-     chassis.pid_swing_relative_set(ez::RIGHT_SWING, 80_deg, 110);
-     chassis.pid_wait();
-     printf("Swinging right\n");
-   }
+  } else
+  {
+      // Turn to the blocks
+      chassis.pid_turn_relative_set(130_deg, 90);
+      chassis.pid_wait();
+  }
 
-   // Turn more to face blocks
-   chassis.pid_turn_relative_set(40_deg, 90);
+
+   // Block Hold
+   blockHold();
+
+
+   // Drive to blocks and intake them
+   chassis.pid_odom_set(25_in, 60);  
    chassis.pid_wait();
 
-  // Block Hold
-  blockHold();
-
-  // Drive to blocks and intake them
-  chassis.pid_odom_set(15_in, 60);  
-  chassis.pid_wait();
 
    if (chassis.odom_y_direction_get() == true) { // Left side
       // Turn completely around to face goal
       chassis.pid_turn_relative_set(250_deg, 90);
       chassis.pid_wait();
 
+
       // Drive to goal
       chassis.pid_odom_set(-22_in, 90);  
       chassis.pid_wait();
 
+
+      // Activate Center Goal
       centerGoalSwitch();
+
 
       pros::delay(1000); // Wait for 1.5 seconds to score the blocks
 
+
+      // Ensure all blocks are in goal
       chassis.pid_odom_set(-3_in, 90);  
       chassis.pid_wait();
+
 
       chassis.pid_odom_set(3_in, 90);  
       chassis.pid_wait();
 
+
+      // Disarm center goal
       centerGoalSwitch();
-      
-   } else 
+     
+   } else
    {
-      // Turn a little more to face goal
-      chassis.pid_turn_relative_set(10_deg, 90);
+       // Drive to goal
+      chassis.pid_odom_set(10_in, 90);  
       chassis.pid_wait();
 
-         // Drive to goal
-      chassis.pid_odom_set(15_in, 90);  
-      chassis.pid_wait();
-
+      // Score on low goal
       lowGoal();
    }
 
+
 }
+
